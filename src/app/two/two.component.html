@@ -1,0 +1,42 @@
+<!-- Data Handling Types - 
+keyUp
+keyDown
+ngModel
+viewChild
+template Variable -->
+
+<!-- <form #myform="ngForm" (ngSubmit)="onclick(myform)"></form> -->
+<!-- <form #myForm="ngForm" (ngSubmit)="onclick()"></form> -->
+<form #myForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" ngModel name="firstName" required #eaFn="ngModel">
+        <span class="text-danger" *ngIf="!eaFn.valid && eaFn.touched">First Name is required</span>
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" ngModel name="lastName" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$" required>
+    </div>
+    <div class="form-group">
+        <label for="emailId">Email ID</label>
+        <input type="text" class="form-control" id="emailId" ngModel name="emailId" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required #eaEi="ngModel">
+        <span class="text-danger" *ngIf="!eaEi.valid && eaEi.touched">Mail ID is required</span>
+    </div>
+    <div class="form-group">
+        <label for="contact">Contact</label>
+        <input type="text" class="form-control" id="contact" ngModel name="contact" required minlength="10" #eaCont="ngModel">
+        <span class="text-danger" *ngIf="!eaCont.valid && eaCont.touched">
+            <!-- Sir, Are these structural directives ??
+            Can we use attribute directives instead of structural ?? -->
+            <ng-container *ngIf="eaCont?.errors?.['required']">Contact Number is required</ng-container>
+            <ng-container *ngIf="eaCont?.errors?.['minlength']">
+                Contact Number length should be 10.
+                <span>Please add {{eaCont?.errors?.['minlength']?.requiredLength - eaCont?.errors?.['minlength']?.actualLength}} more numbers</span>
+            </ng-container>
+        </span>
+    </div>
+
+    <!-- data is accessed through template variable -->
+    <!-- <button type="submit" class="btn btn-sm btn-primary" (click)="onSubmit(myform)">Submit</button> -->
+    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+</form>
